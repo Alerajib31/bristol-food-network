@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Bristol Food Network — Local Food Marketplace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Fresh. Local. Sustainable.</h1>
+        <p class="lead mb-4" style="max-width:600px;margin:0 auto;">
+            Discover and buy fresh produce directly from Bristol's local farmers, bakers, and artisan food producers.
+        </p>
+        <a href="{% url 'products' %}" class="btn btn-light btn-lg me-2 fw-semibold">
+            <i class="bi bi-shop"></i> Browse Products
+        </a>
+        <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">
+            <i class="bi bi-person-plus"></i> Join Now
+        </a>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center text-bfn fw-bold mb-4">Shop by Category</h2>
+        <div class="row g-4 text-center">
+            {% for cat in categories %}
+            <div class="col-6 col-md-3">
+                <div class="category-icon">
+                    <i class="bi bi-{{ cat.icon }}"></i>
+                </div>
+                <h6 class="fw-semibold">{{ cat.name }}</h6>
+                <p class="small text-muted">{{ cat.count }} products</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-bfn-cream">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-bfn fw-bold mb-0">Featured Products</h2>
+            <a href="{% url 'products' %}" class="btn btn-bfn-outline btn-sm">View All <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div style="height:180px;background:{{ product.color }};border-radius:0.375rem 0.375rem 0 0;display:flex;align-items:center;justify-content:center;">
+                        <i class="bi bi-{{ product.icon }}" style="font-size:3rem;color:white;"></i>
+                    </div>
+                    <div class="card-body">
+                        {% if product.organic %}
+                        <span class="badge badge-organic mb-2"><i class="bi bi-leaf"></i> Organic</span>
+                        {% endif %}
+                        <h6 class="card-title fw-bold">{{ product.name }}</h6>
+                        <p class="small text-muted mb-2">{{ product.producer }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-bfn">&pound;{{ product.price }}</span>
+                            <button class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center text-bfn fw-bold mb-5">How It Works</h2>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="category-icon">
+                    <i class="bi bi-search"></i>
+                </div>
+                <h5 class="fw-semibold">Browse</h5>
+                <p class="text-muted">Explore fresh produce from local Bristol farmers and artisan producers.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="category-icon">
+                    <i class="bi bi-cart-check"></i>
+                </div>
+                <h5 class="fw-semibold">Order</h5>
+                <p class="text-muted">Add items to your basket and place your order online.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="category-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <h5 class="fw-semibold">Collect or Deliver</h5>
+                <p class="text-muted">Pick up from a local collection point or get it delivered to your door.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="py-5 bg-bfn text-white">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3">
+                <h2 class="fw-bold">50+</h2>
+                <p class="mb-0">Local Producers</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h2 class="fw-bold">200+</h2>
+                <p class="mb-0">Products</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h2 class="fw-bold">5,000+</h2>
+                <p class="mb-0">Happy Customers</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h2 class="fw-bold">100%</h2>
+                <p class="mb-0">Locally Sourced</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

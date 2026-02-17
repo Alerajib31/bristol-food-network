@@ -1,0 +1,31 @@
+
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: bristol_food
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=bristol_food
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=admin123
+
+volumes:
+  postgres_data:
