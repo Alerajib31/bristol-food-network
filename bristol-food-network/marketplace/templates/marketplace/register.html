@@ -44,6 +44,18 @@
                             <input type="email" class="form-control" id="email" name="email" value="{{ form.email.value|default:'' }}">
                         </div>
                         <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ form.phone.value|default:'' }}" placeholder="07700 900123">
+                        </div>
+                        <div class="mb-3">
+                            <label for="delivery_address" class="form-label">Delivery Address</label>
+                            <input type="text" class="form-control" id="delivery_address" name="delivery_address" value="{{ form.delivery_address.value|default:'' }}" placeholder="45 Park Street, Bristol">
+                        </div>
+                        <div class="mb-3">
+                            <label for="postcode" class="form-label">Postcode</label>
+                            <input type="text" class="form-control" id="postcode" name="postcode" value="{{ form.postcode.value|default:'' }}" placeholder="BS1 5JG">
+                        </div>
+                        <div class="mb-3">
                             <label for="password1" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password1" name="password1" required>
                         </div>

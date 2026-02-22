@@ -59,7 +59,15 @@
                         <p class="small text-muted mb-2">{{ product.producer }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-bfn">&pound;{{ product.price }}</span>
-                            <button class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add</button>
+                            {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="/">
+                                <button type="submit" class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add</button>
+                            </form>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

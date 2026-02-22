@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Basket — Bristol Food Network{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h2 class="fw-bold mb-4" style="color: var(--bfn-green);">
+      <i class="bi bi-cart3 me-2"></i>Your Basket
+    </h2>
+
+    {% if items %}
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+          <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+              <thead style="background-color: var(--bfn-green); color: white;">
+                <tr>
+                  <th class="ps-3 py-3">Product</th>
+                  <th class="py-3">Producer</th>
+                  <th class="py-3">Unit Price</th>
+                  <th class="py-3" style="width: 130px;">Quantity</th>
+                  <th class="py-3">Subtotal</th>
+                  <th class="py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                <tr>
+                  <td class="ps-3">
+                    <a href="{% url 'product_detail' item.product.id %}"
+                       style="color: var(--bfn-green); font-weight: 500; text-decoration: none;">
+                      <i class="bi bi-{{ item.product.icon }} me-1"></i>{{ item.product.name }}
+                    </a>
+                    {% if item.product.organic %}
+                      <span class="badge badge-organic ms-1">Organic</span>
+                    {% endif %}
+                  </td>
+                  <td class="text-muted small">{{ item.product.producer.name }}</td>
+                  <td>£{{ item.product.price }}</td>
+                  <td>
+                    <form method="post" action="{% url 'update_cart' item.id %}" class="d-flex gap-1">
+                      {% csrf_token %}
+                      <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="999"
+                             class="form-control form-control-sm" style="width: 70px;">
+                      <button type="submit" class="btn btn-sm btn-outline-secondary" title="Update">
+                        <i class="bi bi-arrow-repeat"></i>
+                      </button>
+                    </form>
+                  </td>
+                  <td class="fw-semibold">£{{ item.subtotal }}</td>
+                  <td>
+                    <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <a href="{% url 'products' %}" class="btn btn-bfn-outline">
+          <i class="bi bi-arrow-left me-1"></i>Continue Shopping
+        </a>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title fw-bold mb-3">Order Summary</h5>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Items ({{ cart.item_count }})</span>
+              <span>£{{ cart.total }}</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
+              <span>Total</span>
+              <span style="color: var(--bfn-green);">£{{ cart.total }}</span>
+            </div>
+            <button class="btn btn-bfn w-100" disabled>
+              <i class="bi bi-lock me-1"></i>Proceed to Checkout
+            </button>
+            <p class="text-muted small text-center mt-2 mb-0">Checkout coming soon</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+    <div class="text-center py-5">
+      <i class="bi bi-cart-x" style="font-size: 4rem; color: var(--bfn-green); opacity: 0.4;"></i>
+      <h4 class="mt-3 text-muted">Your basket is empty</h4>
+      <p class="text-muted">Browse our local produce and add items to get started.</p>
+      <a href="{% url 'products' %}" class="btn btn-bfn mt-2">
+        <i class="bi bi-shop me-1"></i>Browse Products
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

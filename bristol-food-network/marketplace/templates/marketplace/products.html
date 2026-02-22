@@ -43,8 +43,16 @@
                         <p class="small text-muted">{{ product.producer }}</p>
                         <p class="small text-muted flex-grow-1">{{ product.description }}</p>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
-                            <span class="fw-bold text-bfn fs-5">&pound;{{ product.price }}</span>
-                            <button class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add to Basket</button>
+                            <a href="{% url 'product_detail' product.id %}" class="fw-bold text-bfn fs-5 text-decoration-none">&pound;{{ product.price }}</a>
+                            {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="/products/">
+                                <button type="submit" class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add to Basket</button>
+                            </form>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-bfn btn-sm"><i class="bi bi-cart-plus"></i> Add to Basket</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
